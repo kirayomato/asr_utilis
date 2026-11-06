@@ -93,7 +93,7 @@ def abbr_dispose(words: List[Any], time_stamp: List[List] = None) -> List[Any]:
 
 funasr_onnx.utils.postprocess_utils.abbr_dispose = abbr_dispose
 
-model_dir = "manyeyes/paraformer-seaco-large-zh-timestamp-onnx-offline"
+model_dir = "manyeyes/paraformer-seaco-large-zh-timestamp-int8-onnx-offline"
 model = SeacoParaformer(model_dir, batch_size=1, quantize=True)
 
 

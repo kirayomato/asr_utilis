@@ -380,14 +380,18 @@ class Wav2Vec2Model(BaseASRModel):
 
 class paraformer_onnx(BaseASRModel):
 
-    def __init__(self, model_id: str):
+    def __init__(self, model_id: str, quantize=True):
         super().__init__(model_id)
+        self.quantize = quantize
+        # "manyeyes/paraformer-seaco-large-zh-timestamp-int8-onnx-offline"
+        # "manyeyes/paraformer-seaco-large-zh-timestamp-onnx-offline"
 
     def load(self):
         from funasr_onnx import SeacoParaformer
 
-        model_dir = "manyeyes/paraformer-seaco-large-zh-timestamp-onnx-offline"
-        self.model = SeacoParaformer(model_dir, batch_size=1, quantize=True)
+        self.model = SeacoParaformer(
+            self.model_id, batch_size=1, quantize=self.quantize
+        )
 
     def transcribe(self, audio_batch: List[np.ndarray]) -> List[str]:
         results = [self.model(audio, "")[0]["preds"] for audio in audio_batch]
