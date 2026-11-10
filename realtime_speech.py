@@ -1,12 +1,13 @@
 from datetime import datetime
 from queue import Queue
 from threading import Thread
-from typing import Callable
 import pyaudio
 from time import localtime, strftime, time
 import numpy as np
 from func_timeout import func_timeout
 import unicodedata
+
+from asr_eval import BaseASRModel
 
 
 def is_punctuation(char):
@@ -114,7 +115,7 @@ def record():
             waiting.put((waveform, early_stop))
 
 
-def generate(model: Callable[[np.ndarray], str], need_punc=True, timing=False):
+def generate(model: BaseASRModel, need_punc=True, timing=False):
     if need_punc:
         from funasr_onnx import CT_Transformer
 
@@ -131,7 +132,7 @@ def generate(model: Callable[[np.ndarray], str], need_punc=True, timing=False):
         wav_file, early_stop = waiting.get()
         try:
             t0 = time()
-            res = model(wav_file)
+            res = model.transcribe([wav_file])[0]
             if need_punc and res:
                 try:
                     res = punc(res)[0]
@@ -162,11 +163,20 @@ def generate(model: Callable[[np.ndarray], str], need_punc=True, timing=False):
             print(e)
 
 
-def start_transcribe(
-    transcribe: Callable[[np.ndarray], str], need_punc=True, timing=False
-):
+def start_transcribe(model: BaseASRModel, need_punc=True, timing=False):
+    """model 走 asr_eval 的统一接口，未加载则先加载
+
+    多对象、热词、时间戳这类额外口径请包成 BaseASRModel 子类再传进来。
+    """
+    if not isinstance(model, BaseASRModel):
+        raise TypeError(
+            f"需要 asr_eval.BaseASRModel 实例，收到 {type(model).__name__}"
+        )
+    if model.model is None:
+        model.load()
+
     t1 = Thread(target=record)
-    t2 = Thread(target=generate, args=[transcribe, need_punc, timing])
+    t2 = Thread(target=generate, args=[model, need_punc, timing])
 
     t1.start()
     t2.start()

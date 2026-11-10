@@ -1,8 +1,7 @@
 from typing import Any, List
-from funasr_onnx import SeacoParaformer
 import funasr_onnx
+from asr_eval import paraformer_onnx
 from realtime_speech import start_transcribe
-import numpy as np
 
 
 def abbr_dispose(words: List[Any], time_stamp: List[List] = None) -> List[Any]:
@@ -93,17 +92,10 @@ def abbr_dispose(words: List[Any], time_stamp: List[List] = None) -> List[Any]:
 
 funasr_onnx.utils.postprocess_utils.abbr_dispose = abbr_dispose
 
-model_dir = "manyeyes/paraformer-seaco-large-zh-timestamp-int8-onnx-offline"
-model = SeacoParaformer(model_dir, batch_size=1, quantize=True)
-
-
-def transcribe(wav: np.ndarray) -> str:
-    res = model(
-        wav,
+start_transcribe(
+    paraformer_onnx(
+        "manyeyes/paraformer-seaco-large-zh-timestamp-int8-onnx-offline",
         hotwords="雨纪 ameki 米汀 米米 维阿 罐罐 百舰 舰长 点酥 酥酥 海海 栞栞 岁己",
-    )
-    res = "".join([i["preds"] for i in res])
-    return res
-
-
-start_transcribe(transcribe, timing=False)
+    ),
+    timing=False,
+)

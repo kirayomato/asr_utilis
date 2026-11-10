@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from .datasets import BaseASRDataset
 from .metrics import cer_from_counts, count_edits
-from .models import BaseASRModel
+from models import BaseASRModel
 from .text import TextNormalizer
 
 
