@@ -1,4 +1,4 @@
-from asr_eval import GLMASRLocalModel
+from models import GLMASRLocalModel
 from realtime_speech import start_transcribe
 
 start_transcribe(

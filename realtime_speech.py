@@ -8,7 +8,7 @@ import numpy as np
 from func_timeout import func_timeout
 import unicodedata
 
-from asr_eval import BaseASRModel
+from models import BaseASRModel
 
 
 def is_punctuation(char):

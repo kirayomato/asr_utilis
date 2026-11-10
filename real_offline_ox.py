@@ -1,4 +1,4 @@
-from asr_eval import paraformer_onnx
+from models import paraformer_onnx
 from realtime_speech import start_transcribe
 
 start_transcribe(

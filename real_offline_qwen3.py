@@ -1,7 +1,7 @@
 import logging
 import os
 
-from asr_eval import Qwen3ASRModel
+from models import Qwen3ASRModel
 from realtime_speech import start_transcribe
 
 os.environ["TRANSFORMERS_VERBOSITY"] = "info"

@@ -1,4 +1,5 @@
-from asr_eval import HuggingFaceDataset, Qwen3ASRModel, TextNormalizer, evaluate_asr
+from asr_eval import HuggingFaceDataset, TextNormalizer, evaluate_asr
+from models import Qwen3ASRModel
 
 # 换数据集：
 #   AudioFilesDataset("data/", extensions=[".wav"], max_samples=100)

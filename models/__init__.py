@@ -2,7 +2,7 @@
 
 from .ark import ark_audio_onnx
 from .base import BaseASRModel
-from .funasr import FunASRModel, paraformer_onnx
+from .funasr_model import FunASRModel, paraformer_onnx
 from .glm import GLMASRLLMModel
 from .glm_local import GLMASRLocalModel
 from .nemotron import Nemotron
