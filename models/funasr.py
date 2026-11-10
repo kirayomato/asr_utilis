@@ -93,14 +93,20 @@ def abbr_dispose(words: List[Any], time_stamp: List[List] = None) -> List[Any]:
 class FunASRModel(BaseASRModel):
     """FunASR模型"""
 
-    def __init__(self, model_id: str, **kwargs):
+    def __init__(self, model_id: str = "paraformer-zh", **kwargs):
         super().__init__(model_id)
         self.kwargs = kwargs
 
     def load(self):
         from funasr import AutoModel
 
-        self.model = AutoModel(model=self.model_id, **self.kwargs)
+        self.model = AutoModel(
+            model=self.model_id,
+            #   vad_model="fsmn-vad",
+            #   punc_model="ct-punc",
+            #   spk_model="cam++",
+            **self.kwargs
+        )
 
     def transcribe(self, audio_batch: List[np.ndarray]) -> List[str]:
         res = self.model.generate(input=audio_batch)
