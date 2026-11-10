@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 from queue import Queue
 from threading import Thread
 import pyaudio
@@ -124,6 +125,7 @@ def generate(model: BaseASRModel, need_punc=True, timing=False):
 
     dt = datetime.now()
     filename = f"transcribe/transcribe_{dt.strftime('%Y-%m-%d_%H%M%S')}.txt"
+    os.makedirs("transcribe", exist_ok=True)
     last_s = ""
     cnt = 0
     time0 = time()
@@ -164,14 +166,12 @@ def generate(model: BaseASRModel, need_punc=True, timing=False):
 
 
 def start_transcribe(model: BaseASRModel, need_punc=True, timing=False):
-    """model 走 asr_eval 的统一接口，未加载则先加载
+    """model 走 BaseASRModel 的统一接口，未加载则先加载
 
     多对象、热词、时间戳这类额外口径请包成 BaseASRModel 子类再传进来。
     """
     if not isinstance(model, BaseASRModel):
-        raise TypeError(
-            f"需要 asr_eval.BaseASRModel 实例，收到 {type(model).__name__}"
-        )
+        raise TypeError(f"需要 BaseASRModel 实例，收到 {type(model).__name__}")
     if model.model is None:
         model.load()
 

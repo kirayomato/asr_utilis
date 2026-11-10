@@ -1,3 +1,5 @@
 /.vscode
 /tmp
 /.workbuddy
+/transcribe
+*.pyc
