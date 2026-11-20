@@ -17,7 +17,7 @@ from typing import List, Optional
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from src.inference import greedy_decode_merged, greedy_decode_onnx, merged_prefill
 from src.mel import log_mel_spectrogram
 from src.prompt import EOS_TOKEN_IDS, build_prompt_ids, system_turn_len
@@ -42,22 +42,7 @@ def _to_mono_f32(wav: np.ndarray) -> np.ndarray:
     return np.clip(wav, -1.0, 1.0)
 
 
-class BaseASRModel(ABC):
-    """ASR模型基类"""
-
-    def __init__(self, model_id: str):
-        self.model_id = model_id
-        self.model = None
-
-    @abstractmethod
-    def load(self):
-        """加载模型"""
-        pass
-
-    @abstractmethod
-    def transcribe(self, audio_batch: List[np.ndarray]) -> List[str]:
-        """转录一批音频"""
-        pass
+from base import BaseASRModel
 
 
 class Qwen3ASRModel(BaseASRModel):
