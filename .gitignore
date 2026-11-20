@@ -3,3 +3,5 @@
 /.workbuddy
 /transcribe
 *.pyc
+/models/andrewleech/qwen3-asr-0.6b-onnx-int4-merged
+/models/wasser1462/sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25
