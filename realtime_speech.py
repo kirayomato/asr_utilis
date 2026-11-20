@@ -170,8 +170,6 @@ def start_transcribe(model: BaseASRModel, need_punc=True, timing=False):
 
     多对象、热词、时间戳这类额外口径请包成 BaseASRModel 子类再传进来。
     """
-    if not isinstance(model, BaseASRModel):
-        raise TypeError(f"需要 BaseASRModel 实例，收到 {type(model).__name__}")
     if model.model is None:
         model.load()
 
