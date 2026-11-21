@@ -3,6 +3,9 @@ import torch
 from typing import List, Optional
 
 from .base import BaseASRModel
+from .paths import checkpoint_path
+
+REPO_ID = "Qwen/Qwen3-ASR-0.6B"
 
 
 class Qwen3ASRModel(BaseASRModel):
@@ -20,8 +23,7 @@ class Qwen3ASRModel(BaseASRModel):
         from qwen_asr import Qwen3ASRModel
 
         self.model = Qwen3ASRModel.from_pretrained(
-            f"Qwen/{self.model_id}",
-            # r"F:\Program\cache\modelscope\models\Qwen\Qwen3-ASR-0___6B",
+            str(checkpoint_path(self.model_id, REPO_ID)),
             dtype=torch.bfloat16,
             device_map="cuda:0",
             # attn_implementation="flash_attention_2",

@@ -6,6 +6,7 @@ from .funasr_model import FunASRModel, paraformer_onnx
 from .glm import GLMASRLLMModel
 from .glm_local import GLMASRLocalModel
 from .nemotron import Nemotron
+from .paths import CHECKPOINT_DIR, checkpoint_path
 from .qwen3 import Qwen3ASRModel
 from .sherpa import x_asr, zipformer
 from .wav2vec2 import Wav2Vec2Model
@@ -13,6 +14,8 @@ from .whisper import WhisperModel
 
 __all__ = [
     "BaseASRModel",
+    "CHECKPOINT_DIR",
+    "checkpoint_path",
     "FunASRModel",
     "WhisperModel",
     "Wav2Vec2Model",
